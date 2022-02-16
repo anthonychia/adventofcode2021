@@ -2,7 +2,7 @@ import numpy as np
 
 
 # input
-f = open('sample.txt')
+f = open('input.txt')
 
 line = f.readline()
 sequence = list(map(int, line.split(',')))
@@ -41,14 +41,16 @@ for s in sequence:
     # update bool matrix
     filtered_bool_mat = filtered_bool_mat | (filtered_boards == s)
     # drop win boards
+    to_delete = []
     for i in range(len(filtered_bool_mat)):
         if any([all(row) for row in filtered_bool_mat[i]]) or any([all(row) for row in filtered_bool_mat[i].T]):
             last_winning_board = filtered_boards[i]
             last_winning_bool = filtered_bool_mat[i]
-            filtered_bool_mat = np.delete(filtered_bool_mat, i, 0)
-            filtered_boards = np.delete(filtered_boards, i, 0)
-            break
-    if len(filtered_bool_mat) <= 1 or s == sequence[-1]: break
+            to_delete.append(i)
+
+    filtered_bool_mat = np.delete(filtered_bool_mat, to_delete, 0)
+    filtered_boards = np.delete(filtered_boards, to_delete, 0)
+    if len(filtered_bool_mat) < 1 or s == sequence[-1]: break
 
 score = sum(last_winning_board[~last_winning_bool]) * s
 print(score)
