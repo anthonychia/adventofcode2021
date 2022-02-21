@@ -24,10 +24,6 @@ low_point_bool = sum(gs) >= 4
 print(np.sum(grid[low_point_bool] + 1))
 
 # part 2
-kernel = np.array([[0, 0, 0], [0, 1, 0], [0, 0, 0]])
-
-basin_bool = grid != 9
-
 class Solution:
     def find_all_areas(self, grid, lowest_points):
         self.r_len = len(grid)
